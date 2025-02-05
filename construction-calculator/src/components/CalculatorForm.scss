@@ -1,0 +1,73 @@
+@import '../assets/styles/variables';
+
+.calculator {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+
+  &__group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  }
+
+  &__btn {
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+  }
+
+  &__result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    text-align: center;
+  }
+}
+
+// Добавить во все компоненты
+@media (max-width: 768px) {
+    .container {
+      padding: 0 20px;
+    }
+    
+    .header__nav {
+      display: none;
+    }
+  
+    .hero {
+      padding: 60px 0;
+      
+      h1 {
+        font-size: 32px;
+      }
+    }
+  
+    .features__grid {
+      grid-template-columns: 1fr;
+    }
+  }

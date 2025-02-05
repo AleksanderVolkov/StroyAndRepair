@@ -1,0 +1,303 @@
+@import '../assets/styles/_variables';
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 25px 0;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+
+  &.scrolled {
+    padding: 15px 0;
+    backdrop-filter: blur(8px);
+    
+    .header__logo {
+      img {
+        transform: scale(1.1) translateY(0);
+      }
+      span {
+        font-size: 22px;
+        transform: translateX(8px);
+      }
+    }
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    
+    img {
+      height: 45px;
+      transform: scale(1.2);
+      transform-origin: left center;
+      transition: all 0.4s;
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+    
+    span {
+      font-size: 24px;
+      font-weight: 800;
+      color: $primary-color;
+      position: relative;
+      transform: translateX(10px);
+      transition: all 0.3s;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: $primary-color;
+        transition: width 0.3s;
+      }
+    }
+    
+    &:hover {
+      img {
+        transform: scale(1.25) translateY(-2px);
+        animation-play-state: paused;
+      }
+      span::after {
+        width: 100%;
+      }
+    }
+  }
+
+  .nav-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    font-size: 17px;
+    color: $dark;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: $primary-color;
+      transition: all 0.3s;
+      transform: translateX(-50%);
+    }
+    
+    &:hover {
+      color: $primary-color;
+      transform: translateY(-2px);
+      
+      &::before {
+        width: 80%;
+      }
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    z-index: 1001;
+    
+    span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: $dark;
+      margin: 5px 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+    
+    &.active {
+      span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+      span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+  .header {
+    &__inner {
+      height: 70px; // Оптимальная высота для мобилок
+    }
+
+    &__nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100vh;
+      width: 85%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      padding: 110px 30px;
+      display: flex !important;
+      flex-direction: column;
+      gap: 30px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      box-shadow: -15px 0 40px rgba(0, 0, 0, 0.08);
+      border-left: 1px solid rgba(255, 255, 255, 0.3);
+
+      // Градиентный акцент
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba($primary-color, 0.4),
+          rgba($primary-color, 0.1)
+        );
+      }
+
+      &.active {
+        right: 0;
+        transform: translateX(0);
+      }
+
+      .nav-link {
+        font-size: 20px;
+        padding: 18px 25px;
+        margin: 8px 0;
+        text-align: left;
+        width: 100%;
+        color: rgba($dark, 0.9);
+        background: transparent;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        transform: translateX(30px);
+        opacity: 0;
+        position: relative;
+        overflow: hidden;
+
+        // Анимационная полоска
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 25px;
+          right: 25px;
+          height: 1px;
+          background: rgba($dark, 0.08);
+          transition: all 0.3s;
+        }
+
+        // Индикатор выбора
+        &::before {
+          content: '';
+          position: absolute;
+          left: -10px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 0;
+          background: $primary-color;
+          border-radius: 2px;
+          transition: height 0.3s ease;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.6);
+          color: $primary-color;
+          padding-left: 35px;
+          transform: translateX(0);
+
+          &::before {
+            height: 60%;
+          }
+
+          &::after {
+            left: 35px;
+            right: 15px;
+          }
+        }
+
+        // Последовательная анимация элементов
+        @for $i from 1 through 5 {
+          &:nth-child(#{$i}) {
+            transition-delay: $i * 0.05s;
+          }
+        }
+      }
+
+      &.active .nav-link {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    &__burger {
+      display: block;
+      position: relative;
+      z-index: 1000;
+      transition: all 0.3s;
+
+      span {
+        background: $dark;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+      }
+
+      &.active {
+        span {
+          background: $primary-color;
+
+          &:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+          }
+          &:nth-child(2) {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          &:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+          }
+        }
+      }
+    }
+  }
+}
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) scale(1.2); }
+  50% { transform: translateY(-6px) scale(1.22); }
+}
