@@ -1,0 +1,137 @@
+@import '../assets/styles/_variables';
+
+.account-page {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(45deg, $light 0%, #f8fbff 100%);
+}
+
+.sidebar {
+  width: 280px;
+  padding: 2rem;
+  background: rgba($light, 0.97);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba($primary-color, 0.1);
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+
+  .user-card {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      background: $primary-color;
+      color: white;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background: rgba($primary-color, 0.1);
+      }
+
+      &.active {
+        background: $primary-color;
+        color: white;
+      }
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  padding: 3rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.project-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: rgba($primary-color, 0.1);
+    border-radius: 4px;
+    margin: 1rem 0;
+
+    .progress-fill {
+      height: 100%;
+      background: $primary-color;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+  }
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+  }
+
+  th {
+    background: $primary-color;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background: rgba($primary-color, 0.03);
+  }
+}
+
+@media (max-width: 768px) {
+  .account-page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba($primary-color, 0.1);
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

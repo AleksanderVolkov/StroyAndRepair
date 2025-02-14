@@ -6,7 +6,6 @@ export default function CalculatorForm() {
   const [result, setResult] = useState(null);
 
   const calculate = () => {
-    // Простейший пример расчета
     setResult(area * 0.5);
   };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Добавляем для навигации
 import './Header.scss';
 import { scrollToSection } from '../utils/scrollHelpers';
 import logo from '../assets/images/logo.svg';
@@ -6,6 +7,8 @@ import logo from '../assets/images/logo.svg';
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Состояние авторизации
+  const navigate = useNavigate(); // Хук для навигации
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -21,6 +24,15 @@ export default function Header() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsMenuOpen(false);
+  };
+
+  // Обработчик авторизации
+  const handleAuthClick = () => {
+    if (isLoggedIn) {
+      navigate('/AccountPage'); // Переход в личный кабинет
+    } else {
+      navigate('/auth'); // Переход на страницу авторизации
+    }
   };
 
   return (
@@ -65,6 +77,14 @@ export default function Header() {
               onClick={() => handleNavClick('materials')}
             >
               Материалы
+            </button>
+
+            {/* Кнопка авторизации */}
+            <button
+              className="auth-button"
+              onClick={handleAuthClick}
+            >
+              {isLoggedIn ? 'Личный кабинет' : 'Авторизация'}
             </button>
           </nav>
         </div>

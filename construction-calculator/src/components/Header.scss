@@ -147,6 +147,33 @@
         transform: rotate(-45deg) translate(6px, -6px);
       }
     }
+
+    .auth-button {
+      background: $primary-color;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-left: 1.5rem;
+  
+      &:hover {
+        background: darken($primary-color, 10%);
+        transform: translateY(-2px);
+      }
+  
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  
+    @media (max-width: 768px) {
+      .auth-button {
+        margin: 1rem 0;
+        width: 100%;
+      }
+    }
   }
 
   @media (max-width: 768px) {
