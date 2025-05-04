@@ -1,13 +1,31 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './AccountPage.scss';
+import { useAuth } from '../context/AuthContext';
+import API from '../api/index';
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('projects');
+  const { user } = useAuth();
+  const [calculations, setCalculations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [projects] = useState([
     { id: 1, name: 'Квартира 54м²', progress: 85, lastUpdate: '12.08.2023' },
     { id: 2, name: 'Дачный дом', progress: 45, lastUpdate: '05.08.2023' }
   ]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const { data } = await API.get('/calculations/');
+        setCalculations(data);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+      setLoading(false);
+    };
+    loadData();
+  }, []);
 
   const [history] = useState([
     { id: 1, date: '2023-08-12', material: 'Плитка керамическая', amount: 150 },

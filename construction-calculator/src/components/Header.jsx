@@ -1,94 +1,97 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Добавляем для навигации
-import './Header.scss';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { scrollToSection } from '../utils/scrollHelpers';
-import logo from '../assets/images/logo.svg';
+import './Header.scss';
 
-export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Состояние авторизации
-  const navigate = useNavigate(); // Хук для навигации
+const Header = () => {
+  const { isAuthenticated, loading, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (section) => {
-    scrollToSection(section);
-    setIsMenuOpen(false);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsMenuOpen(false);
-  };
-
-  // Обработчик авторизации
-  const handleAuthClick = () => {
-    if (isLoggedIn) {
-      navigate('/AccountPage'); // Переход в личный кабинет
+  // Обработчик навигации с учетом текущей страницы
+  const handleNavigation = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => scrollToSection(sectionId), 300);
     } else {
-      navigate('/auth'); // Переход на страницу авторизации
+      scrollToSection(sectionId);
     }
   };
 
+  // Определение стиля хедера для разных страниц
+  const getHeaderStyle = () => {
+    if (location.pathname === '/account') return 'account';
+    return location.pathname === '/' ? 'home' : 'default';
+  };
+
+  if (loading) return null;
+
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="container">
-        <div className="header__inner">
-          <div 
-            className="header__logo" 
-            onClick={scrollToTop}
-            role="button" 
-            tabIndex={0}
-          >
-            <img src={logo} alt="Логотип" className="logo-animate" />
-            <span>РемонтПодсчет</span>
-          </div>
-
-          <button 
-            className={`header__burger ${isMenuOpen ? 'active' : ''}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Меню"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-
-          <nav className={`header__nav ${isMenuOpen ? 'active' : ''}`}>
-            <button 
-              className="nav-link"
-              onClick={() => handleNavClick('features')}
-            >
-              Преимущества
-            </button>
-            <button 
-              className="nav-link"
-              onClick={() => handleNavClick('calculator')}
-            >
-              Калькулятор
-            </button>
-            <button 
-              className="nav-link"
-              onClick={() => handleNavClick('materials')}
-            >
-              Материалы
-            </button>
-
-            {/* Кнопка авторизации */}
-            <button
-              className="auth-button"
-              onClick={handleAuthClick}
-            >
-              {isLoggedIn ? 'Личный кабинет' : 'Авторизация'}
-            </button>
-          </nav>
+    <header className={`header header--${getHeaderStyle()}`}>
+      <div className="header__container">
+        <div 
+          className="header__logo" 
+          onClick={() => navigate('/')}
+          role="button"
+          aria-label="На главную"
+        >
+          <span>СтройРасчёт</span>
         </div>
+
+        <nav className="header__nav">
+          {/* Основные кнопки навигации */}
+          {location.pathname === '/' && (
+            <>
+              <button 
+                className="header__nav-btn"
+                onClick={() => handleNavigation('calculator')}
+                aria-label="Перейти к калькулятору"
+              >
+                Калькулятор
+              </button>
+              <button 
+                className="header__nav-btn"
+                onClick={() => handleNavigation('materials')}
+                aria-label="Перейти к материалам"
+              >
+                Материалы
+              </button>
+            </>
+          )}
+
+          {/* Кнопки авторизации */}
+          <div className="header__auth-btns">
+            {isAuthenticated ? (
+              <>
+                <button
+                  className="header__nav-btn"
+                  onClick={() => navigate('/account')}
+                  aria-label="Личный кабинет"
+                >
+                  Кабинет
+                </button>
+                <button
+                  className="header__nav-btn header__nav-btn--logout"
+                  onClick={logout}
+                  aria-label="Выйти из системы"
+                >
+                  Выйти
+                </button>
+              </>
+            ) : (
+              <button
+                className="header__nav-btn"
+                onClick={() => navigate('/auth')}
+                aria-label="Авторизация"
+              >
+                Войти
+              </button>
+            )}
+          </div>
+        </nav>
       </div>
     </header>
   );
-}
+};
+
+export default Header;
