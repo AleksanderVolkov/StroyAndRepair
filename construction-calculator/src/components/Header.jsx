@@ -8,7 +8,6 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Обработчик навигации с учетом текущей страницы
   const handleNavigation = (sectionId) => {
     if (location.pathname !== '/') {
       navigate('/');
@@ -18,7 +17,6 @@ const Header = () => {
     }
   };
 
-  // Определение стиля хедера для разных страниц
   const getHeaderStyle = () => {
     if (location.pathname === '/account') return 'account';
     return location.pathname === '/' ? 'home' : 'default';
@@ -41,7 +39,7 @@ const Header = () => {
         <nav className="header__nav">
           {/* Основные кнопки навигации */}
           {location.pathname === '/' && (
-            <>
+            <div className="header__main-nav">
               <button 
                 className="header__nav-btn"
                 onClick={() => handleNavigation('calculator')}
@@ -56,13 +54,13 @@ const Header = () => {
               >
                 Материалы
               </button>
-            </>
+            </div>
           )}
 
           {/* Кнопки авторизации */}
           <div className="header__auth-btns">
             {isAuthenticated ? (
-              <>
+              <div className="header__auth-group">
                 <button
                   className="header__nav-btn"
                   onClick={() => navigate('/account')}
@@ -77,7 +75,7 @@ const Header = () => {
                 >
                   Выйти
                 </button>
-              </>
+              </div>
             ) : (
               <button
                 className="header__nav-btn"
